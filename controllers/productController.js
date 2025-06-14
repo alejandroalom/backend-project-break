@@ -3,7 +3,6 @@ const getProductCards = require("../helpers/template");
 const baseHtml = require("../helpers/baseHtml");
 const getNavBar = require("../helpers/getNavBar");
 
-// Mostrar todos los productos (con filtro opcional por categoría)
 const showProducts = async (req, res) => {
   try {
     const filtro = {};
@@ -20,7 +19,6 @@ const showProducts = async (req, res) => {
   }
 };
 
-// Mostrar un producto por su ID
 const showProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.productId);
@@ -31,7 +29,6 @@ const showProductById = async (req, res) => {
   }
 };
 
-// Mostrar formulario para nuevo producto
 const showNewProduct = (req, res) => {
   const html = `
     <h1>Subir nuevo producto</h1>
@@ -72,7 +69,6 @@ const showNewProduct = (req, res) => {
   res.send(baseHtml(html));
 };
 
-// Guardar nuevo producto en la base de datos
 const createProduct = async (req, res) => {
   try {
     await Product.create(req.body);
@@ -82,7 +78,71 @@ const createProduct = async (req, res) => {
   }
 };
 
-// Dashboard con todos los productos (modo admin)
+const showEditProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    if (!product) return res.status(404).send("Producto no encontrado");
+
+    const html = `
+      <h1>Editar producto</h1>
+      <form action="/dashboard/${product._id}/edit?_method=PUT" method="POST">
+        <label>Nombre:</label>
+        <input type="text" name="name" value="${product.name}" required /><br>
+
+        <label>Descripción:</label>
+        <textarea name="description">${product.description}</textarea><br>
+
+        <label>URL de imagen:</label>
+        <input type="text" name="image" value="${product.image}" /><br>
+
+        <label>Categoría:</label>
+        <select name="category">
+          <option value="Camisetas" ${product.category === "Camisetas" ? "selected" : ""}>Camisetas</option>
+          <option value="Pantalones" ${product.category === "Pantalones" ? "selected" : ""}>Pantalones</option>
+          <option value="Zapatos" ${product.category === "Zapatos" ? "selected" : ""}>Zapatos</option>
+          <option value="Accesorios" ${product.category === "Accesorios" ? "selected" : ""}>Accesorios</option>
+        </select><br>
+
+        <label>Talla:</label>
+        <select name="size">
+          <option value="XS" ${product.size === "XS" ? "selected" : ""}>XS</option>
+          <option value="S" ${product.size === "S" ? "selected" : ""}>S</option>
+          <option value="M" ${product.size === "M" ? "selected" : ""}>M</option>
+          <option value="L" ${product.size === "L" ? "selected" : ""}>L</option>
+          <option value="XL" ${product.size === "XL" ? "selected" : ""}>XL</option>
+        </select><br>
+
+        <label>Precio:</label>
+        <input type="number" name="price" value="${product.price}" step="0.01" required /><br>
+
+        <button type="submit">Guardar cambios</button>
+      </form>
+    `;
+
+    res.send(baseHtml(html));
+  } catch (err) {
+    res.status(500).send("Error al cargar el formulario de edición");
+  }
+};
+
+const updateProduct = async (req, res) => {
+  try {
+    await Product.findByIdAndUpdate(req.params.productId, req.body);
+    res.redirect("/dashboard");
+  } catch (err) {
+    res.status(500).send("Error al actualizar producto");
+  }
+};
+
+const deleteProduct = async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.productId);
+    res.redirect("/dashboard");
+  } catch (err) {
+    res.status(500).send("Error al borrar producto");
+  }
+};
+
 const showDashboard = async (req, res) => {
   try {
     const products = await Product.find();
@@ -114,75 +174,16 @@ const showDashboard = async (req, res) => {
   }
 };
 
-// Mostrar formulario para editar producto
-const showEditProduct = async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.productId);
-    if (!product) return res.status(404).send("Producto no encontrado");
-
-    const html = `
-      <h1>Editar producto</h1>
-      <form action="/dashboard/${product._id}?_method=PUT" method="POST">
-        <label>Nombre:</label>
-        <input type="text" name="name" value="${product.name}" required /><br>
-
-        <label>Descripción:</label>
-        <textarea name="description">${product.description}</textarea><br>
-
-        <label>URL de imagen:</label>
-        <input type="text" name="image" value="${product.image}" /><br>
-
-        <label>Categoría:</label>
-        <input type="text" name="category" value="${product.category}" /><br>
-
-        <label>Talla:</label>
-        <input type="text" name="size" value="${product.size}" /><br>
-
-        <label>Precio:</label>
-        <input type="number" name="price" step="0.01" value="${product.price}" required /><br>
-
-        <button type="submit">Guardar cambios</button>
-      </form>
-    `;
-
-    res.send(baseHtml(html));
-  } catch (err) {
-    res.status(500).send("Error al mostrar el formulario de edición");
-  }
-};
-
-// Actualizar producto en la base de datos
-const updateProduct = async (req, res) => {
-  try {
-    await Product.findByIdAndUpdate(req.params.productId, req.body);
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(500).send("Error al actualizar el producto");
-  }
-};
-
-// Eliminar producto de la base de datos
-const deleteProduct = async (req, res) => {
-  try {
-    await Product.findByIdAndDelete(req.params.productId);
-    res.redirect("/dashboard");
-  } catch (err) {
-    res.status(500).send("Error al borrar el producto");
-  }
-};
-
-// Exportamos todas las funciones para usarlas en las rutas
 module.exports = {
   showProducts,
   showProductById,
   showNewProduct,
   createProduct,
-  showDashboard,
   showEditProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  showDashboard,
 };
-
 
 
 

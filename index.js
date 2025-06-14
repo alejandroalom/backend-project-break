@@ -26,6 +26,10 @@ app.get("/", (req, res) => {
   res.send("¡Servidor funcionando y conectado a MongoDB!");
 });
 
+app.use("*", (req, res) => {
+  res.send("Estoy vivo en Render. Ruta no encontrada, pero Express responde.");
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });

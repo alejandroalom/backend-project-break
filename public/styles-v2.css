@@ -11,7 +11,7 @@ body {
   color: #222;
 }
 
-/* Navegación mejorada */
+
 .navbar {
   background-color: #ffffff;
   padding: 1rem 2rem;
@@ -38,7 +38,7 @@ body {
   text-decoration: underline;
 }
 
-/* Botón admin */
+
 .btn-admin {
   display: inline-block;
   margin-bottom: 2rem;
@@ -54,7 +54,6 @@ body {
   background-color: #000;
 }
 
-/* Layout tarjetas */
 .product-list {
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +112,6 @@ body {
   text-decoration: underline;
 }
 
-/* Formularios */
 form {
   max-width: 500px;
   background: #fff;
@@ -148,7 +146,6 @@ form button:hover {
   background-color: #000;
 }
 
-/* Adaptación móvil */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;

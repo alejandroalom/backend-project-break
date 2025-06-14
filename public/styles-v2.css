@@ -11,31 +11,50 @@ body {
   color: #222;
 }
 
+/* Navegación mejorada */
 .navbar {
   background-color: #ffffff;
   padding: 1rem 2rem;
-  margin-bottom: 2.5rem; 
+  margin-bottom: 2.5rem;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   display: flex;
+  flex-wrap: wrap;
   gap: 1.5rem;
 }
 
 .navbar a {
-  color: #222;                 
-  text-decoration: none;      
+  color: #222;
+  text-decoration: none;
   font-weight: 600;
   font-size: 1rem;
 }
 
 .navbar a:visited {
-  color: #222; 
+  color: #222;
 }
 
 .navbar a:hover {
   text-decoration: underline;
 }
 
+/* Botón admin */
+.btn-admin {
+  display: inline-block;
+  margin-bottom: 2rem;
+  padding: 0.5rem 1.2rem;
+  background-color: #222;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.btn-admin:hover {
+  background-color: #000;
+}
+
+/* Layout tarjetas */
 .product-list {
   display: flex;
   flex-wrap: wrap;
@@ -50,8 +69,10 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 1rem;
   max-width: 250px;
-  flex-direction: column;
+  width: 100%;
+  flex: 1 1 250px;
   display: flex;
+  flex-direction: column;
   transition: transform 0.2s ease;
 }
 
@@ -88,6 +109,7 @@ body {
   text-decoration: underline;
 }
 
+/* Formularios */
 form {
   max-width: 500px;
   background: #fff;
@@ -122,17 +144,20 @@ form button:hover {
   background-color: #000;
 }
 
-.btn-admin {
-  display: inline-block;
-  background-color: #222;
-  color: white;
-  text-decoration: none;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
+/* Adaptación móvil */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-list {
+    justify-content: center;
+  }
+
+  .product-card {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
 }
 
-.btn-admin:hover {
-  background-color: #000;
-}

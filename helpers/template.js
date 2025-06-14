@@ -1,5 +1,5 @@
 function getProductCards(products) {
-  let html = "";
+  let html = '<div class="product-list">';
   for (let product of products) {
     html += `
       <div class="product-card">
@@ -11,6 +11,7 @@ function getProductCards(products) {
       </div>
     `;
   }
+  html += '</div>';
   return html;
 }
 

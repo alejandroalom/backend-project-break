@@ -61,6 +61,10 @@ body {
   gap: 2rem;
   justify-content: flex-start;
   margin-top: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .product-card {
